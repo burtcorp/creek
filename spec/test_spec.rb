@@ -166,3 +166,21 @@ describe 'Creek parsing a sample XLSX file' do
     expect(rows.map{|r| r['cells']}).to eq(@expected_rows)
   end
 end
+
+describe 'Creek parsing a file with unusual structure.' do
+  before(:all) do
+    @creek = Creek::Book.new 'spec/fixtures/test_structure.xlsx'
+    @expected_rows = [
+      {"A1"=>"date", "B1"=>"dimension", "C1"=>"metric_1", "D1"=>"metric_2", "E1"=>"metric_3"},
+      {"A2"=>"2022-02-27", "B2"=>"A", "C2"=>"1", "D2"=>"5.30", "E2"=>"11:11:11"}
+    ]
+  end
+
+  after(:all) do
+    @creek.close
+  end
+
+  it 'Parse rows successfully.' do
+    expect(@creek.sheets[0].rows.to_a).to eq(@expected_rows)
+  end
+end

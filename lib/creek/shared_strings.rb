@@ -13,8 +13,8 @@ module Creek
     end
 
     def parse_shared_shared_strings
-      path = "xl/sharedStrings.xml"
-      if @book.files.file.exist?(path)
+      path = @book.workbook_rels_by_type["http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings"]
+      if path
         doc = @book.files.file.open path
         xml = Nokogiri::XML::Document.parse doc
         parse_shared_string_from_document(xml)

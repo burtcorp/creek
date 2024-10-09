@@ -6,12 +6,12 @@ module Creek
     end
 
     def path
-      "xl/styles.xml"
+      @book.workbook_rels_by_type["http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles"]
     end
 
     def styles_xml
       @styles_xml ||= begin
-        if @book.files.file.exist?(path)
+        if path
           doc = @book.files.file.open path
           Nokogiri::XML::Document.parse doc
         end
