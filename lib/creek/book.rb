@@ -106,6 +106,8 @@ module Creek
       rels_xml = Nokogiri::XML::Document.parse(rels_file).css('Relationship')
       rel = rels_xml.find { |el| el.attr('Type') == "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" }
       @workbook_path = rel.attr('Target')
+    rescue Errno::ENOENT
+      @workbook_path = 'xl/workbook.xml'
     end
 
     def parse_workbook_rels
