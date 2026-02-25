@@ -120,6 +120,7 @@ module Creek
                 cell_type      = node.attributes['t']
                 cell_style_idx = node.attributes['s']
                 cell           = node.attributes['r']
+                cell ||= (cells.keys.last&.delete('0-9')&.succ || 'A') + row['r']
               elsif %w[v t].include?(node.name) && node.node_type == opener
                 unless cell.nil?
                   node.read

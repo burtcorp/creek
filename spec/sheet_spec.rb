@@ -121,4 +121,20 @@ describe 'sheet' do
       end
     end
   end
+
+  context 'when cell references are missing' do
+    let(:book_missing_refs) { Creek::Book.new('spec/fixtures/sample-missing-cell-ref.xlsx') }
+    let(:missing_refs_sheet) { book_missing_refs.sheets[0] }
+
+    after { book_missing_refs.close }
+
+    it 'infers cell references from column order' do
+      rows = missing_refs_sheet.rows.to_a
+
+      expect(rows[0]['A1']).to eq('Content 1')
+      expect(rows[0]['C1']).to eq('Content 2')
+      expect(rows[5]['B6']).to eq('2')
+      expect(rows[5]['C6']).to eq('3')
+    end
+  end
 end
